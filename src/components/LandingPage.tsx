@@ -290,7 +290,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-black">
+      <footer className="border-t border-white/10 bg-black relative">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center gap-3 mb-4 md:mb-0">
@@ -316,6 +316,18 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
               </div>
             </div>
           </div>
+        </div>
+        
+        {/* Bolt.new Attribution */}
+        <div className="absolute bottom-4 right-6">
+          <a 
+            href="https://bolt.new" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-xs text-white/40 hover:text-white/60 transition-colors"
+          >
+            powered by Bolt.new
+          </a>
         </div>
       </footer>
     </div>
