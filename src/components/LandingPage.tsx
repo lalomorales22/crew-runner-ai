@@ -103,15 +103,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
           <div className="text-center max-w-4xl mx-auto">
             <Badge variant="outline" className="mb-6 border-white/30 text-white/80 bg-black">
               <Sparkles className="h-3 w-3 mr-1" />
-              Powered by{' '}
-              <a 
-                href="https://crewai.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-white transition-colors underline underline-offset-2"
-              >
-                CrewAI
-              </a>
+              A CrewAI Inspired App
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
