@@ -14,8 +14,7 @@ import {
   Settings,
   Activity,
   Github,
-  Star,
-  GitFork
+  Star
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -29,26 +28,22 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
     {
       icon: <Sparkles className="h-8 w-8" />,
       title: "AI-Powered Crew Generation",
-      description: "Describe your project and let AI automatically generate intelligent crews with specialized agents and tasks.",
-      color: "from-purple-500 to-pink-500"
+      description: "Describe your project and let AI automatically generate intelligent crews with specialized agents and tasks."
     },
     {
       icon: <Users className="h-8 w-8" />,
       title: "Multi-Agent Collaboration",
-      description: "Create teams of AI agents that work together, each with unique roles, goals, and specialized tools.",
-      color: "from-blue-500 to-cyan-500"
+      description: "Create teams of AI agents that work together, each with unique roles, goals, and specialized tools."
     },
     {
       icon: <Zap className="h-8 w-8" />,
       title: "Real-Time Execution",
-      description: "Watch your crews execute tasks in real-time with live logs, progress tracking, and instant feedback.",
-      color: "from-orange-500 to-red-500"
+      description: "Watch your crews execute tasks in real-time with live logs, progress tracking, and instant feedback."
     },
     {
       icon: <FileText className="h-8 w-8" />,
       title: "Automated File Generation",
-      description: "Crews automatically generate reports, documents, and files based on their task outputs and analysis.",
-      color: "from-green-500 to-emerald-500"
+      description: "Crews automatically generate reports, documents, and files based on their task outputs and analysis."
     }
   ];
 
@@ -65,20 +60,16 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
     <div className="min-h-screen bg-black text-white overflow-auto">
       {/* Hero Section */}
       <div className="relative">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)]" />
-        
         {/* Header */}
-        <header className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm">
+        <header className="relative z-10 border-b border-gray-800 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                  <Bot className="h-6 w-6 text-white" />
+                <div className="h-10 w-10 bg-white rounded-lg flex items-center justify-center">
+                  <Bot className="h-6 w-6 text-black" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  <h1 className="text-xl font-bold text-white">
                     CrewRunner AI
                   </h1>
                   <p className="text-xs text-gray-400">Intelligent Multi-Agent Automation</p>
@@ -97,7 +88,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                 </a>
                 <Button
                   onClick={onEnterApp}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-0"
+                  className="bg-white text-black hover:bg-gray-200 border-0"
                 >
                   <Play className="h-4 w-4 mr-2" />
                   Launch App
@@ -110,15 +101,15 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge variant="outline" className="mb-6 border-purple-500/30 text-purple-300 bg-purple-500/10">
+            <Badge variant="outline" className="mb-6 border-gray-600 text-gray-300 bg-gray-800">
               <Sparkles className="h-3 w-3 mr-1" />
               Powered by Advanced AI
             </Badge>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
               Build Intelligent
               <br />
-              <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+              <span className="text-gray-300">
                 AI Crews
               </span>
             </h1>
@@ -133,7 +124,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
               <Button
                 onClick={onEnterApp}
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-0 text-lg px-8 py-6 h-auto"
+                className="bg-white text-black hover:bg-gray-200 border-0 text-lg px-8 py-6 h-auto"
               >
                 <Play className="h-5 w-5 mr-2" />
                 Start Building Crews
@@ -160,10 +151,10 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </div>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900">
+      <section className="py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
               Powerful Features
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -175,15 +166,17 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className={`bg-gray-900/50 border-gray-800 hover:border-gray-700 transition-all duration-300 cursor-pointer ${
-                  hoveredFeature === index ? 'scale-105 shadow-2xl' : ''
+                className={`bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300 cursor-pointer ${
+                  hoveredFeature === index ? 'scale-105 shadow-2xl border-white' : ''
                 }`}
                 onMouseEnter={() => setHoveredFeature(index)}
                 onMouseLeave={() => setHoveredFeature(null)}
               >
                 <CardContent className="p-8">
-                  <div className={`inline-flex p-3 rounded-lg bg-gradient-to-r ${feature.color} mb-4`}>
-                    {feature.icon}
+                  <div className="inline-flex p-3 rounded-lg bg-white mb-4">
+                    <div className="text-black">
+                      {feature.icon}
+                    </div>
                   </div>
                   <h3 className="text-2xl font-bold mb-3 text-white">{feature.title}</h3>
                   <p className="text-gray-400 leading-relaxed">{feature.description}</p>
@@ -195,10 +188,10 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </section>
 
       {/* Use Cases Section */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-black">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
               Perfect For
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -210,9 +203,9 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
             {useCases.map((useCase, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-4 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
+                className="flex items-center gap-3 p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
               >
-                <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
                 <span className="text-gray-300">{useCase}</span>
               </div>
             ))}
@@ -221,10 +214,10 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-black">
+      <section className="py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
               How It Works
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -234,8 +227,8 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="inline-flex p-4 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 mb-6">
-                <Sparkles className="h-8 w-8 text-white" />
+              <div className="inline-flex p-4 rounded-full bg-white mb-6">
+                <Sparkles className="h-8 w-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-white">1. Generate or Design</h3>
               <p className="text-gray-400">
@@ -244,8 +237,8 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
             </div>
             
             <div className="text-center">
-              <div className="inline-flex p-4 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 mb-6">
-                <Settings className="h-8 w-8 text-white" />
+              <div className="inline-flex p-4 rounded-full bg-white mb-6">
+                <Settings className="h-8 w-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-white">2. Configure & Customize</h3>
               <p className="text-gray-400">
@@ -254,8 +247,8 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
             </div>
             
             <div className="text-center">
-              <div className="inline-flex p-4 rounded-full bg-gradient-to-r from-cyan-600 to-green-600 mb-6">
-                <Activity className="h-8 w-8 text-white" />
+              <div className="inline-flex p-4 rounded-full bg-white mb-6">
+                <Activity className="h-8 w-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-white">3. Execute & Monitor</h3>
               <p className="text-gray-400">
@@ -267,9 +260,9 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-900/20 to-blue-900/20">
+      <section className="py-20 bg-black border-t border-gray-800">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
             Ready to Build Your First Crew?
           </h2>
           <p className="text-xl text-gray-300 mb-8">
@@ -279,7 +272,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
           <Button
             onClick={onEnterApp}
             size="lg"
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-0 text-xl px-12 py-8 h-auto"
+            className="bg-white text-black hover:bg-gray-200 border-0 text-xl px-12 py-8 h-auto"
           >
             <Play className="h-6 w-6 mr-3" />
             Launch CrewRunner AI
@@ -293,8 +286,8 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center gap-3 mb-4 md:mb-0">
-              <div className="h-8 w-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                <Bot className="h-5 w-5 text-white" />
+              <div className="h-8 w-8 bg-white rounded-lg flex items-center justify-center">
+                <Bot className="h-5 w-5 text-black" />
               </div>
               <span className="text-gray-400">CrewRunner AI - Intelligent Multi-Agent Automation</span>
             </div>
