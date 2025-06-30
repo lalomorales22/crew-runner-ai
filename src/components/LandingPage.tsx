@@ -61,7 +61,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       {/* Hero Section */}
       <div className="relative">
         {/* Header */}
-        <header className="relative z-10 border-b border-gray-800 backdrop-blur-sm">
+        <header className="relative z-10 border-b border-white/20 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -72,7 +72,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                   <h1 className="text-xl font-bold text-white">
                     CrewRunner AI
                   </h1>
-                  <p className="text-xs text-gray-400">Intelligent Multi-Agent Automation</p>
+                  <p className="text-xs text-white/60">Intelligent Multi-Agent Automation</p>
                 </div>
               </div>
               
@@ -81,14 +81,14 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                   href="https://github.com/lalomorales22/crew-runner-ai" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
                 >
                   <Github className="h-5 w-5" />
                   <span className="hidden sm:inline">GitHub</span>
                 </a>
                 <Button
                   onClick={onEnterApp}
-                  className="bg-white text-black hover:bg-gray-200 border-0"
+                  className="bg-white text-black hover:bg-white/90 border-0"
                 >
                   <Play className="h-4 w-4 mr-2" />
                   Launch App
@@ -101,7 +101,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge variant="outline" className="mb-6 border-gray-600 text-gray-300 bg-gray-800">
+            <Badge variant="outline" className="mb-6 border-white/30 text-white/80 bg-black">
               <Sparkles className="h-3 w-3 mr-1" />
               Powered by Advanced AI
             </Badge>
@@ -109,12 +109,12 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
             <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
               Build Intelligent
               <br />
-              <span className="text-gray-300">
+              <span className="text-white/70">
                 AI Crews
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+            <p className="text-xl md:text-2xl text-white/70 mb-8 leading-relaxed">
               Create teams of specialized AI agents that collaborate to solve complex tasks.
               <br />
               From research to content creation, automate your workflows with intelligent crews.
@@ -124,7 +124,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
               <Button
                 onClick={onEnterApp}
                 size="lg"
-                className="bg-white text-black hover:bg-gray-200 border-0 text-lg px-8 py-6 h-auto"
+                className="bg-white text-black hover:bg-white/90 border-0 text-lg px-8 py-6 h-auto"
               >
                 <Play className="h-5 w-5 mr-2" />
                 Start Building Crews
@@ -139,7 +139,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white text-lg px-8 py-6 h-auto"
+                  className="border-white/30 text-white/80 hover:bg-white/10 hover:text-white text-lg px-8 py-6 h-auto"
                 >
                   <Github className="h-5 w-5 mr-2" />
                   View on GitHub
@@ -151,13 +151,13 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </div>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-black border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
               Powerful Features
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
               Everything you need to create, configure, and execute intelligent AI crews
             </p>
           </div>
@@ -166,7 +166,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className={`bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300 cursor-pointer ${
+                className={`bg-black border-white/20 hover:border-white/40 transition-all duration-300 cursor-pointer ${
                   hoveredFeature === index ? 'scale-105 shadow-2xl border-white' : ''
                 }`}
                 onMouseEnter={() => setHoveredFeature(index)}
@@ -179,7 +179,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                     </div>
                   </div>
                   <h3 className="text-2xl font-bold mb-3 text-white">{feature.title}</h3>
-                  <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+                  <p className="text-white/60 leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -188,13 +188,13 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </section>
 
       {/* Use Cases Section */}
-      <section className="py-20 bg-black">
+      <section className="py-20 bg-black border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
               Perfect For
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
               CrewRunner AI adapts to your industry and workflow needs
             </p>
           </div>
@@ -203,10 +203,10 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
             {useCases.map((useCase, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
+                className="flex items-center gap-3 p-4 bg-black rounded-lg border border-white/20 hover:border-white/40 transition-colors"
               >
                 <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
-                <span className="text-gray-300">{useCase}</span>
+                <span className="text-white/80">{useCase}</span>
               </div>
             ))}
           </div>
@@ -214,13 +214,13 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-black border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
               How It Works
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
               Get started in minutes with our intuitive workflow
             </p>
           </div>
@@ -231,7 +231,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                 <Sparkles className="h-8 w-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-white">1. Generate or Design</h3>
-              <p className="text-gray-400">
+              <p className="text-white/60">
                 Use AI to generate crews from descriptions or manually design your team of specialized agents
               </p>
             </div>
@@ -241,7 +241,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                 <Settings className="h-8 w-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-white">2. Configure & Customize</h3>
-              <p className="text-gray-400">
+              <p className="text-white/60">
                 Fine-tune agent roles, goals, tools, and task workflows to match your specific requirements
               </p>
             </div>
@@ -251,7 +251,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                 <Activity className="h-8 w-8 text-black" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-white">3. Execute & Monitor</h3>
-              <p className="text-gray-400">
+              <p className="text-white/60">
                 Launch your crew and watch real-time execution with live logs, progress tracking, and file generation
               </p>
             </div>
@@ -260,19 +260,19 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-black border-t border-gray-800">
+      <section className="py-20 bg-black border-t border-white/10">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
             Ready to Build Your First Crew?
           </h2>
-          <p className="text-xl text-gray-300 mb-8">
+          <p className="text-xl text-white/70 mb-8">
             Join the future of AI automation and start creating intelligent workflows today
           </p>
           
           <Button
             onClick={onEnterApp}
             size="lg"
-            className="bg-white text-black hover:bg-gray-200 border-0 text-xl px-12 py-8 h-auto"
+            className="bg-white text-black hover:bg-white/90 border-0 text-xl px-12 py-8 h-auto"
           >
             <Play className="h-6 w-6 mr-3" />
             Launch CrewRunner AI
@@ -282,14 +282,14 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 bg-black">
+      <footer className="border-t border-white/10 bg-black">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center gap-3 mb-4 md:mb-0">
               <div className="h-8 w-8 bg-white rounded-lg flex items-center justify-center">
                 <Bot className="h-5 w-5 text-black" />
               </div>
-              <span className="text-gray-400">CrewRunner AI - Intelligent Multi-Agent Automation</span>
+              <span className="text-white/60">CrewRunner AI - Intelligent Multi-Agent Automation</span>
             </div>
             
             <div className="flex items-center gap-6">
@@ -297,12 +297,12 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
                 href="https://github.com/lalomorales22/crew-runner-ai" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
               >
                 <Github className="h-5 w-5" />
                 <span>GitHub</span>
               </a>
-              <div className="flex items-center gap-1 text-gray-400">
+              <div className="flex items-center gap-1 text-white/60">
                 <Star className="h-4 w-4" />
                 <span className="text-sm">Star on GitHub</span>
               </div>
