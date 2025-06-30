@@ -2,7 +2,7 @@
 
 **Intelligent Multi-Agent Automation Platform**
 
-CrewRunner AI is a powerful web application that enables you to create, configure, and execute teams of specialized AI agents that collaborate to solve complex tasks. From content creation to data analysis, automate your workflows with intelligent crews.
+CrewRunner AI is a powerful web application that enables you to create, configure, and execute teams of specialized AI agents that collaborate to solve complex tasks. Inspired by the [CrewAI framework](https://crewai.com), this application brings intelligent multi-agent automation to the web with an intuitive interface for content creation, data analysis, and workflow automation.
 
 ![CrewRunner AI](https://img.shields.io/badge/CrewRunner-AI-purple?style=for-the-badge&logo=robot)
 ![React](https://img.shields.io/badge/React-18.3.1-blue?style=for-the-badge&logo=react)
@@ -163,10 +163,22 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
+### CrewAI Framework
+This application is inspired by and built upon concepts from the [CrewAI framework](https://crewai.com). CrewAI is a cutting-edge framework for orchestrating role-playing, autonomous AI agents that enables teams of agents to collaborate and tackle complex tasks.
+
+**About CrewAI:**
+- **Website**: [https://crewai.com](https://crewai.com)
+- **GitHub**: [https://github.com/joaomdmoura/crewAI](https://github.com/joaomdmoura/crewAI)
+- **Creator**: João Moura ([@joaomdmoura](https://github.com/joaomdmoura))
+
+CrewAI provides the foundational concepts of multi-agent collaboration, role-based AI systems, and task orchestration that inspired the design and functionality of CrewRunner AI. We encourage users to explore the original CrewAI framework for production-grade multi-agent applications.
+
+### Technology Stack
 - Built with [React](https://reactjs.org/) and [TypeScript](https://www.typescriptlang.org/)
 - UI components from [shadcn/ui](https://ui.shadcn.com/)
 - AI powered by [Groq](https://groq.com/)
 - Icons by [Lucide](https://lucide.dev/)
+- Deployed with [Netlify](https://netlify.com/)
 
 ## 📞 Support
 
@@ -176,6 +188,14 @@ If you have any questions or need help getting started:
 2. Create a new issue if your question isn't answered
 3. Join our community discussions
 
+## 🔗 Related Projects
+
+- **[CrewAI](https://crewai.com)** - The original framework that inspired this application
+- **[CrewAI GitHub](https://github.com/joaomdmoura/crewAI)** - Official CrewAI repository
+- **[CrewAI Documentation](https://docs.crewai.com)** - Comprehensive CrewAI documentation
+
 ---
 
 **CrewRunner AI** - Empowering the future of intelligent automation 🚀
+
+*Inspired by CrewAI - Bringing multi-agent collaboration to the web*
