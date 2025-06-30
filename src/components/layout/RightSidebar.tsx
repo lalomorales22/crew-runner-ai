@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCrewStore } from '@/store/useCrewStore';
 import { groqService } from '@/lib/groq';
+import { tavilyService } from '@/lib/tavily';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,7 +18,9 @@ import {
   ListTodo,
   Settings,
   Play,
-  Save
+  Save,
+  Globe,
+  AlertTriangle
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -26,6 +29,8 @@ export function RightSidebar() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [description, setDescription] = useState('');
   const [activeTab, setActiveTab] = useState('generate');
+
+  const isWebSearchConfigured = tavilyService.isConfigured();
 
   const handleGenerateCrew = async () => {
     if (!description.trim()) {
@@ -105,6 +110,22 @@ export function RightSidebar() {
           <Wand2 className="h-4 w-4" />
           Crew Builder
         </h2>
+        
+        {/* Web Search Status */}
+        <div className="mt-2">
+          <Badge 
+            variant={isWebSearchConfigured ? "default" : "secondary"}
+            className="flex items-center gap-1 text-xs"
+          >
+            <Globe className="h-3 w-3" />
+            {isWebSearchConfigured ? 'Web Search Ready' : 'Web Search Simulated'}
+          </Badge>
+          {!isWebSearchConfigured && (
+            <p className="text-xs text-muted-foreground mt-1">
+              Add VITE_TAVILY_API_KEY to enable real web search
+            </p>
+          )}
+        </div>
       </div>
 
       <ScrollArea className="flex-1">
@@ -166,16 +187,16 @@ export function RightSidebar() {
                         • Software development team
                       </button>
                       <button
-                        onClick={() => setDescription('Build a market research crew that analyzes competitors, identifies trends, and creates strategic reports')}
+                        onClick={() => setDescription('Build a market research crew that analyzes competitors, identifies trends, and creates strategic reports with web search capabilities')}
                         className="block text-left hover:text-foreground transition-colors"
                       >
-                        • Market research team
+                        • Market research team (with web search)
                       </button>
                       <button
-                        onClick={() => setDescription('Design a content creation crew for social media with researchers, writers, and social media managers')}
+                        onClick={() => setDescription('Design a content creation crew for social media with researchers, writers, and social media managers that can search the web for trending topics')}
                         className="block text-left hover:text-foreground transition-colors"
                       >
-                        • Content creation team
+                        • Content creation team (with web search)
                       </button>
                     </div>
                   </div>
@@ -189,11 +210,26 @@ export function RightSidebar() {
                 <CardContent>
                   <div className="flex flex-wrap gap-1">
                     {preBuiltTools.map((tool) => (
-                      <Badge key={tool} variant="secondary" className="text-xs">
+                      <Badge 
+                        key={tool} 
+                        variant={tool === 'web_search' ? (isWebSearchConfigured ? 'default' : 'secondary') : 'secondary'} 
+                        className="text-xs"
+                      >
+                        {tool === 'web_search' && <Globe className="h-3 w-3 mr-1" />}
                         {tool}
                       </Badge>
                     ))}
                   </div>
+                  
+                  {!isWebSearchConfigured && (
+                    <div className="flex items-start gap-2 mt-3 p-2 bg-amber-50 dark:bg-amber-950/20 rounded-md">
+                      <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                      <div className="text-xs text-amber-700 dark:text-amber-400">
+                        <p className="font-medium">Web Search Tool Available</p>
+                        <p>Add your Tavily API key to enable real web search capabilities for your crews.</p>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
@@ -257,7 +293,12 @@ export function RightSidebar() {
                             </p>
                             <div className="flex flex-wrap gap-1">
                               {agent.tools.map((tool) => (
-                                <Badge key={tool} variant="secondary" className="text-xs">
+                                <Badge 
+                                  key={tool} 
+                                  variant={tool === 'web_search' ? (isWebSearchConfigured ? 'default' : 'secondary') : 'secondary'} 
+                                  className="text-xs"
+                                >
+                                  {tool === 'web_search' && <Globe className="h-3 w-3 mr-1" />}
                                   {tool}
                                 </Badge>
                               ))}

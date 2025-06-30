@@ -1,5 +1,6 @@
 import Groq from 'groq-sdk';
 import { Agent, Task } from '@/types';
+import { tavilyService } from './tavily';
 
 class GroqService {
   private client: Groq | null = null;
@@ -205,13 +206,64 @@ Create 2-3 agents, 3-4 tasks. Tools: web_search, file_reader, code_analyzer, dat
     };
   }
 
+  private async handleWebSearchTool(query: string, context?: string): Promise<string> {
+    if (!tavilyService.isConfigured()) {
+      return `# Web Search Unavailable
+
+The web search tool requires a Tavily API key to be configured.
+
+**Query:** "${query}"
+
+**Simulated Results:**
+1. **Example Result 1**
+   - URL: https://example.com/result1
+   - Content: This would be actual web content related to "${query}"
+   - Relevance Score: 0.95
+
+2. **Example Result 2**
+   - URL: https://example.com/result2  
+   - Content: Additional information about "${query}" from the web
+   - Relevance Score: 0.87
+
+*To enable real web search, add your Tavily API key to the environment variables.*`;
+    }
+
+    try {
+      return await tavilyService.performWebSearch(query, context);
+    } catch (error) {
+      return `# Web Search Error
+
+**Query:** "${query}"
+**Error:** ${error.message}
+
+Please check your Tavily API configuration and try again.`;
+    }
+  }
+
   async executeAgentTask(agent: Agent, task: Task, context: string = '') {
     if (!this.client) {
       throw new Error('Groq API key not configured');
     }
 
-    // Create a more specific prompt that asks for actual results, not implementation
-    const prompt = this.createTaskExecutionPrompt(agent, task, context);
+    // Check if agent has web_search tool and task requires web search
+    const hasWebSearch = agent.tools.includes('web_search');
+    const needsWebSearch = task.description.toLowerCase().includes('search') || 
+                          task.description.toLowerCase().includes('research') ||
+                          task.description.toLowerCase().includes('find') ||
+                          task.description.toLowerCase().includes('latest') ||
+                          task.description.toLowerCase().includes('current');
+
+    let webSearchResults = '';
+    
+    // Perform web search if agent has the tool and task needs it
+    if (hasWebSearch && needsWebSearch) {
+      // Extract search query from task description
+      const searchQuery = this.extractSearchQuery(task.description, task.name);
+      webSearchResults = await this.handleWebSearchTool(searchQuery, context);
+    }
+
+    // Create a more specific prompt that includes web search results if available
+    const prompt = this.createTaskExecutionPrompt(agent, task, context, webSearchResults);
 
     return this.rateLimitedRequest(async () => {
       try {
@@ -248,7 +300,41 @@ Create 2-3 agents, 3-4 tasks. Tools: web_search, file_reader, code_analyzer, dat
     });
   }
 
-  private createTaskExecutionPrompt(agent: Agent, task: Task, context: string): string {
+  private extractSearchQuery(description: string, taskName: string): string {
+    // Try to extract a meaningful search query from the task description
+    const lowerDesc = description.toLowerCase();
+    
+    // Look for specific search patterns
+    const searchPatterns = [
+      /search for (.+?)(?:\.|$)/i,
+      /find (.+?)(?:\.|$)/i,
+      /research (.+?)(?:\.|$)/i,
+      /look up (.+?)(?:\.|$)/i,
+      /investigate (.+?)(?:\.|$)/i
+    ];
+
+    for (const pattern of searchPatterns) {
+      const match = description.match(pattern);
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+    }
+
+    // If no specific pattern found, use the task name or a cleaned version of the description
+    if (taskName.toLowerCase().includes('search') || taskName.toLowerCase().includes('research')) {
+      return taskName.replace(/search|research|task/gi, '').trim();
+    }
+
+    // Extract key terms from description
+    const words = description.split(' ').filter(word => 
+      word.length > 3 && 
+      !['search', 'find', 'research', 'task', 'should', 'will', 'need', 'must'].includes(word.toLowerCase())
+    );
+    
+    return words.slice(0, 5).join(' ') || description.slice(0, 50);
+  }
+
+  private createTaskExecutionPrompt(agent: Agent, task: Task, context: string, webSearchResults?: string): string {
     // Create task-specific prompts that ask for actual results
     const basePrompt = `You are ${agent.name}, a ${agent.role}.
 Your goal: ${agent.goal}
@@ -260,30 +346,31 @@ Task: ${task.description}
 Expected Output: ${task.expectedOutput}
 ${context ? `Previous Context: ${context.slice(0, 200)}...` : ''}
 
-`;
+${webSearchResults ? `\n## Web Search Results Available:\n${webSearchResults}\n\nUse this information to complete your task.\n` : ''}`;
 
     // Customize prompt based on task type and agent role
     if (task.name.toLowerCase().includes('search') || task.name.toLowerCase().includes('find')) {
-      return basePrompt + `Provide a list of actual findings, results, or discoveries. Do not provide code or instructions on how to search.
+      return basePrompt + `${webSearchResults ? 'Based on the web search results above, provide a comprehensive summary and analysis.' : 'Provide a list of actual findings, results, or discoveries. Do not provide code or instructions on how to search.'}
 
 Example format:
-# Search Results
+# Search Results Summary
 
-1. **Item 1 Name**
-   - Description: Brief description
-   - Key details: Important information
-   - Link/Source: Where found
+## Key Findings
+- Finding 1: Detailed information
+- Finding 2: Detailed information  
+- Finding 3: Detailed information
 
-2. **Item 2 Name**
-   - Description: Brief description
-   - Key details: Important information
-   - Link/Source: Where found
+## Detailed Analysis
+[Comprehensive analysis based on the search results]
 
-Provide actual results:`;
+## Sources and References
+[List of sources used]
+
+Provide actual search results and analysis:`;
     }
 
     if (task.name.toLowerCase().includes('analyze') || task.name.toLowerCase().includes('analysis')) {
-      return basePrompt + `Provide actual analysis results and insights. Do not provide code or instructions on how to analyze.
+      return basePrompt + `Provide actual analysis results and insights. ${webSearchResults ? 'Use the web search data provided above.' : 'Do not provide code or instructions on how to analyze.'}
 
 Example format:
 # Analysis Results
@@ -304,7 +391,7 @@ Provide actual analysis:`;
     }
 
     if (task.name.toLowerCase().includes('summary') || task.name.toLowerCase().includes('report')) {
-      return basePrompt + `Create an actual summary or report document. Do not provide code or instructions.
+      return basePrompt + `Create an actual summary or report document. ${webSearchResults ? 'Incorporate the web search information provided above.' : 'Do not provide code or instructions.'}
 
 Example format:
 # ${task.name}
@@ -322,7 +409,7 @@ Create the actual document:`;
     }
 
     // Default prompt for other tasks
-    return basePrompt + `Complete this task and provide the actual deliverable. Do not provide code, implementation details, or instructions.
+    return basePrompt + `Complete this task and provide the actual deliverable. ${webSearchResults ? 'Use the web search results provided above to inform your response.' : 'Do not provide code, implementation details, or instructions.'}
 
 Provide the actual result that fulfills the expected output:`;
   }

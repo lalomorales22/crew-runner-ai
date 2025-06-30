@@ -21,6 +21,12 @@ CrewRunner AI is a powerful web application that enables you to create, configur
 - **Tool Integration**: Equip agents with specialized tools (web search, file processing, code analysis, etc.)
 - **Flexible Workflows**: Support for sequential, hierarchical, and parallel execution processes
 
+### 🌐 Real Web Search Integration
+- **Tavily API Integration**: Enable agents to access real-time web information
+- **Live Data Access**: Agents can search the web for current information during task execution
+- **Smart Search Queries**: AI automatically generates relevant search queries based on task context
+- **Comprehensive Results**: Get detailed search results with summaries and source links
+
 ### ⚡ Real-Time Execution
 - **Live Monitoring**: Watch your crews execute tasks in real-time
 - **Progress Tracking**: Visual progress indicators and detailed execution logs
@@ -43,6 +49,7 @@ CrewRunner AI is a powerful web application that enables you to create, configur
 - **Node.js** (version 18 or higher)
 - **npm** or **yarn** package manager
 - **Groq API Key** (for AI functionality)
+- **Tavily API Key** (optional, for web search functionality)
 
 ### Installation
 
@@ -62,9 +69,10 @@ CrewRunner AI is a powerful web application that enables you to create, configur
    cp .env.template .env
    ```
    
-   Edit `.env` and add your Groq API key:
+   Edit `.env` and add your API keys:
    ```env
    VITE_GROQ_API_KEY=your_groq_api_key_here
+   VITE_TAVILY_API_KEY=your_tavily_api_key_here
    ```
 
 4. **Start the development server**
@@ -76,13 +84,22 @@ CrewRunner AI is a powerful web application that enables you to create, configur
    
    Navigate to `http://localhost:5173` to access CrewRunner AI
 
-### Getting a Groq API Key
+### Getting API Keys
 
+#### Groq API Key (Required)
 1. Visit [Groq Console](https://console.groq.com/)
 2. Sign up for a free account
 3. Navigate to API Keys section
 4. Create a new API key
 5. Copy the key to your `.env` file
+
+#### Tavily API Key (Optional - for Web Search)
+1. Visit [Tavily](https://tavily.com/)
+2. Sign up for an account
+3. Get your API key from the dashboard
+4. Add it to your `.env` file as `VITE_TAVILY_API_KEY`
+
+**Note**: Without the Tavily API key, web search functionality will be simulated with example data.
 
 ## 🎯 How to Use
 
@@ -98,13 +115,18 @@ CrewRunner AI is a powerful web application that enables you to create, configur
 - Define tasks and assign them to agents
 - Configure tools and execution process
 
-### 3. **Execute Your Crew**
+### 3. **Enable Web Search (Optional)**
+- Add your Tavily API key to the environment variables
+- Assign the `web_search` tool to agents that need web access
+- Agents will automatically search the web when tasks require current information
+
+### 4. **Execute Your Crew**
 - Click "Execute Crew" to start the workflow
 - Monitor real-time progress and logs
 - View generated files in the Files tab
 - Download or share results
 
-### 4. **Manage Results**
+### 5. **Manage Results**
 - Access all generated files in the Files tab
 - View, edit, download, or share documents
 - Track execution history and performance
@@ -116,6 +138,7 @@ CrewRunner AI is a powerful web application that enables you to create, configur
 - **Styling**: Tailwind CSS + shadcn/ui components
 - **Build Tool**: Vite
 - **AI Integration**: Groq SDK
+- **Web Search**: Tavily API
 - **State Management**: Zustand
 - **Database**: SQL.js (client-side)
 - **Icons**: Lucide React
@@ -124,12 +147,13 @@ CrewRunner AI is a powerful web application that enables you to create, configur
 
 CrewRunner AI is perfect for:
 
-- **Content Creation & Marketing**: Research, writing, and SEO optimization teams
+- **Content Creation & Marketing**: Research, writing, and SEO optimization teams with web search
+- **Market Research**: Real-time competitor analysis and trend identification
 - **Software Development**: Code analysis, testing, and documentation crews
-- **Research & Analysis**: Data processing and report generation teams
-- **Business Automation**: Process optimization and workflow automation
-- **Customer Support**: Automated response and ticket handling systems
-- **Data Processing**: ETL pipelines and data transformation workflows
+- **News & Information**: Current events research and reporting teams
+- **Business Intelligence**: Data gathering and analysis with live web data
+- **Customer Support**: Automated response systems with current information access
+- **Academic Research**: Literature reviews and current research compilation
 
 ## 🔧 Available Scripts
 
@@ -146,6 +170,17 @@ npm run preview
 # Run linting
 npm run lint
 ```
+
+## 🌐 Web Search Capabilities
+
+When configured with a Tavily API key, CrewRunner AI provides:
+
+- **Real-time Web Search**: Access current information from across the web
+- **Smart Query Generation**: AI automatically creates relevant search queries
+- **Comprehensive Results**: Detailed search results with content summaries
+- **Source Attribution**: Full source links and publication dates
+- **Answer Synthesis**: AI-generated summaries of search results
+- **Follow-up Questions**: Suggested related queries for deeper research
 
 ## 🤝 Contributing
 
@@ -177,6 +212,7 @@ CrewAI provides the foundational concepts of multi-agent collaboration, role-bas
 - Built with [React](https://reactjs.org/) and [TypeScript](https://www.typescriptlang.org/)
 - UI components from [shadcn/ui](https://ui.shadcn.com/)
 - AI powered by [Groq](https://groq.com/)
+- Web search powered by [Tavily](https://tavily.com/)
 - Icons by [Lucide](https://lucide.dev/)
 - Deployed with [Netlify](https://netlify.com/)
 

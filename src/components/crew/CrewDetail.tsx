@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { Crew } from '@/types';
 import { useCrewStore } from '@/store/useCrewStore';
 import { groqService } from '@/lib/groq';
+import { tavilyService } from '@/lib/tavily';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -23,7 +24,9 @@ import {
   Activity,
   Settings,
   FileText,
-  Download
+  Download,
+  Globe,
+  AlertTriangle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CrewConfigureModal } from './CrewConfigureModal';
@@ -41,6 +44,10 @@ export function CrewDetail({ crew }: CrewDetailProps) {
   const [isConfigureOpen, setIsConfigureOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const crewFilesRef = useRef<any>(null);
+
+  // Check if web search is available
+  const hasWebSearchAgents = crew.agents.some(agent => agent.tools.includes('web_search'));
+  const isWebSearchConfigured = tavilyService.isConfigured();
 
   // File creation helper function
   const createCrewFile = (name: string, content: string, taskId?: string) => {
@@ -100,6 +107,11 @@ export function CrewDetail({ crew }: CrewDetailProps) {
       return;
     }
 
+    // Show warning if web search agents exist but Tavily is not configured
+    if (hasWebSearchAgents && !isWebSearchConfigured) {
+      toast.warning('Web search agents detected but Tavily API key not configured. Web search will be simulated.');
+    }
+
     setIsExecuting(true);
     setExecutionLogs([]);
     setExecutionProgress(0);
@@ -115,11 +127,28 @@ export function CrewDetail({ crew }: CrewDetailProps) {
 
       setExecutionLogs(prev => [...prev, '🚀 Starting crew execution...']);
       setExecutionLogs(prev => [...prev, `📋 Found ${crew.agents.length} agents and ${crew.tasks.length} tasks`]);
+      
+      if (hasWebSearchAgents) {
+        if (isWebSearchConfigured) {
+          setExecutionLogs(prev => [...prev, '🌐 Web search enabled via Tavily API']);
+        } else {
+          setExecutionLogs(prev => [...prev, '⚠️ Web search agents detected but Tavily API not configured - using simulated results']);
+        }
+      }
 
       for (const task of crew.tasks) {
         const agent = crew.agents.find(a => a.name === task.agentId) || crew.agents[0];
         
         setExecutionLogs(prev => [...prev, `🤖 ${agent.name} starting task: ${task.name}`]);
+        
+        // Check if this agent has web search capability
+        if (agent.tools.includes('web_search')) {
+          if (isWebSearchConfigured) {
+            setExecutionLogs(prev => [...prev, `🔍 ${agent.name} has web search capability - will access live web data`]);
+          } else {
+            setExecutionLogs(prev => [...prev, `🔍 ${agent.name} has web search capability - using simulated data (Tavily API not configured)`]);
+          }
+        }
         
         try {
           // Simulate AI execution with Groq
@@ -174,7 +203,11 @@ export function CrewDetail({ crew }: CrewDetailProps) {
       }
 
       // Create a comprehensive final report
-      const finalReport = `# Crew Execution Report: ${crew.name}\n\n**Description:** ${crew.description}\n\n**Execution Date:** ${new Date().toLocaleString()}\n\n**Process:** ${crew.process}\n\n**Agents:** ${crew.agents.length}\n**Tasks:** ${crew.tasks.length}\n\n## Results\n\n${allResults.join('\n')}`;
+      const webSearchStatus = hasWebSearchAgents 
+        ? (isWebSearchConfigured ? 'Enabled (Live web data accessed)' : 'Simulated (Tavily API not configured)')
+        : 'Not used';
+
+      const finalReport = `# Crew Execution Report: ${crew.name}\n\n**Description:** ${crew.description}\n\n**Execution Date:** ${new Date().toLocaleString()}\n\n**Process:** ${crew.process}\n\n**Agents:** ${crew.agents.length}\n**Tasks:** ${crew.tasks.length}\n\n**Web Search Status:** ${webSearchStatus}\n\n## Results\n\n${allResults.join('\n')}`;
       
       // Always create a final report file
       const reportFileName = `${crew.name.toLowerCase().replace(/\s+/g, '_')}_report.md`;
@@ -268,8 +301,27 @@ export function CrewDetail({ crew }: CrewDetailProps) {
                 {getStatusIcon(crew.status)}
                 {crew.status}
               </Badge>
+              
+              {/* Web Search Status Indicator */}
+              {hasWebSearchAgents && (
+                <Badge 
+                  variant={isWebSearchConfigured ? "default" : "secondary"}
+                  className="flex items-center gap-1"
+                >
+                  <Globe className="h-3 w-3" />
+                  {isWebSearchConfigured ? 'Web Search Ready' : 'Web Search Simulated'}
+                </Badge>
+              )}
             </div>
             <p className="text-muted-foreground">{crew.description}</p>
+            
+            {/* Web Search Warning */}
+            {hasWebSearchAgents && !isWebSearchConfigured && (
+              <div className="flex items-center gap-2 mt-2 text-amber-600 text-sm">
+                <AlertTriangle className="h-4 w-4" />
+                <span>This crew has web search agents but Tavily API is not configured. Add VITE_TAVILY_API_KEY to enable real web search.</span>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
@@ -372,7 +424,12 @@ export function CrewDetail({ crew }: CrewDetailProps) {
                                   <span className="text-xs font-medium text-muted-foreground">Tools:</span>
                                   <div className="flex flex-wrap gap-1 mt-1">
                                     {agent.tools.map((tool) => (
-                                      <Badge key={tool} variant="outline" className="text-xs">
+                                      <Badge 
+                                        key={tool} 
+                                        variant={tool === 'web_search' ? (isWebSearchConfigured ? 'default' : 'secondary') : 'outline'} 
+                                        className="text-xs"
+                                      >
+                                        {tool === 'web_search' && <Globe className="h-3 w-3 mr-1" />}
                                         {tool}
                                       </Badge>
                                     ))}
@@ -520,6 +577,9 @@ export function CrewDetail({ crew }: CrewDetailProps) {
                       <div className="text-xs text-muted-foreground">
                         <p>Completed: {crew.updatedAt.toLocaleString()}</p>
                         <p>Status: {crew.status}</p>
+                        {hasWebSearchAgents && (
+                          <p>Web Search: {isWebSearchConfigured ? 'Enabled (Live data)' : 'Simulated (Tavily API not configured)'}</p>
+                        )}
                       </div>
                     </div>
                   ) : (
